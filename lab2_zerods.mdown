@@ -1,0 +1,238 @@
+#sicp cs61a lab2
+##origin: http://inst.eecs.berkeley.edu/~cs61a/sp15/lab/lab03/#q1
+
+```python
+# Q2
+def make_buzzer(n):
+    """ 
+    Returns a function that prints numbers in a specified
+    range except those divisible by n.
+    """
+    def flight_bee(x):
+        for i in range(x):
+            if i % n == 0:
+                print('Buzz!')
+            else:
+                print(i)
+    return flight_bee
+##i_hate_fives = make_buzzer(5)
+##print i_hate_fives(10)
+
+
+# Q4
+def f1():
+    """
+    >>> f1()
+    3
+    """
+    return 3
+
+
+def f2():
+    """
+    >>> f2()()
+    3
+    """
+    return lambda: 3
+
+
+def f3():
+    """
+    >>> f3()(3)
+    3
+    """
+    return lambda x: x
+
+
+def f4():
+    """
+    >>> f4()()(3)()
+    3
+    """
+    return lambda: lambda x: lambda: x
+
+# Q6
+def sums(n):
+    """
+    Computes the sum of all integers between 1 and n, inclusive.
+    Assume n is positive.
+
+    >>> sum(1)
+    1
+    >>> sum(5)  # 1 + 2 + 3 + 4 + 5
+    15
+    """
+    if n == 1:
+        return 1
+    else:
+        return n + sums(n - 1)
+
+# Q7
+
+
+def sum_every_other_number(n):
+    """
+    Return the sum of every other natural number
+    up to n, inclusive.
+
+    >>> sum_every_other_number(8)
+    20
+    >>> sum_every_other_number(9)
+    25
+    """
+    if n <= 1:
+        return n
+    else:
+        return n + sum_every_other_number(n - 2)
+
+
+def fibonacci(n):
+    """
+    Return the nth fibonacci number.
+
+    >>> fibonacci(11)
+    89
+    """
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+# print fibonacci(11)
+
+
+# Q8
+def hailstone(n):
+    """
+    Print out the hailstone sequence starting at n, and return the
+    number of elements in the sequence.
+
+    >>> a = hailstone(10)
+    10
+    5
+    16
+    8
+    4
+    2
+    1
+    >>> a
+    7
+    """
+    print(n)
+    if n == 1:
+        return 1
+    elif n % 2 == 0:
+        return 1 + hailstone(n / 2)
+    else:
+        return 1 + hailstone(3 * n + 1)
+
+# Q9
+def cycle(f1, f2, f3):
+    """ Returns a function that is itself a higher order function
+    >>> def add1(x):
+    ...     return x + 1
+    >>> def times2(x):
+    ...     return x * 2
+    >>> def add3(x):
+    ...     return x + 3
+    >>> my_cycle = cycle(add1, times2, add3)
+    >>> identity = my_cycle(0)
+    >>> identity(5)
+    5
+    >>> add_one_then_double = my_cycle(2)
+    >>> add_one_then_double(1)
+    4
+    >>> do_all_functions = my_cycle(3)
+    >>> do_all_functions(2)
+    9
+    >>> do_more_than_a_cycle = my_cycle(4)
+    >>> do_more_than_a_cycle(2)
+    10
+    >>> do_two_cycles = my_cycle(6)
+    >>> do_two_cycles(1)
+    19
+    """
+    def high_order_func(n):
+        def high_order(x):
+            if n == 0:
+                return x
+            elif n % 3 == 1:
+                return f1(high_order_func(n-1)(x))
+            elif n % 3 == 2:
+                return f2(high_order_func(n-1)(x))
+            else:
+                return f3(high_order_func(n-1)(x))
+        return high_order
+    return high_order_func
+
+# def add1(x):
+#     return x + 1 
+# def times2(x):
+#     return x * 2
+# def add3(x):
+#     return x + 3
+# my_cycle = cycle(add1, times2, add3)
+# identity = my_cycle(6)
+# print identity(1)
+
+
+# Q10
+def lambda_curry2(func):
+    """
+    Returns a Curried version of a two argument function func.
+    >>> from operator import add
+    >>> x = lambda_curry2(add)
+    >>> y = x(3)
+    >>> y(5)
+    8
+    """
+    "*** YOUR CODE HERE ***"
+    return lambda x: lambda y: add(x, y)
+
+# from operator import add
+# x = lambda_curry2(add)
+# y = x(3)
+# print y(5)
+
+# Q12
+def paths(m, n):
+    """Return the number of paths from one corner of an
+    M by N grid to the opposite corner.
+
+    >>> paths(2, 2)
+    2
+    >>> paths(5, 7)
+    210
+    >>> paths(117, 1)
+    1
+    >>> paths(1, 157)
+    1
+    """
+    if m == 1 or n == 1:
+        return 1
+    else :
+        return paths(m - 1, n) + paths(m, n - 1)
+
+
+# Q13
+def gcd(a, b):
+    """Returns the greatest common divisor of a and b.
+    Should be implemented using recursion.
+
+    >>> gcd(34, 19)
+    1
+    >>> gcd(39, 91)
+    13
+    >>> gcd(20, 30)
+    10
+    >>> gcd(40, 40)
+    40
+    """
+    if a % b == 0:
+        return b
+    else:
+        return gcd(b, a % b)
+
+```
+
