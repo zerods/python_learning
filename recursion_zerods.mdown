@@ -1,0 +1,113 @@
+##SICP CS61A Discussion2 recursion
+###reference: http://inst.eecs.berkeley.edu/~cs61a/sp15/disc/disc02.pdf
+```python
+
+def countdown(n):
+    assert n > 0, ValueError
+    if n == 1:
+        print 1
+    else:
+        countdown(n - 1)
+        print n
+
+
+def expt(base, power):
+    if power == 0:
+        return 1
+    elif power > 0:
+        return base * expt(base, power - 1)
+    else:
+        return expt(1.0 / base, -power)
+
+
+def is_prime(n):
+    if n < 2:
+        return False
+    elif n == 2:
+        return True
+    elif n % 2 == 0:
+        return False
+    def f(n, k):
+        if k * k > n:
+            return True
+        elif n % k == 0:
+            return False
+        else:
+            return f(n, k + 2)
+    return f(n, 3)
+
+# print is_prime(29)
+    
+
+
+def sum_primes_up_to(n):
+    if n <= 2:
+        return 2
+    elif n % 2 == 0:
+        return sum_primes_up_to(n - 1)
+    elif is_prime(n):
+        return n + sum_primes_up_to(n - 2)
+    else:
+        return sum_primes_up_to(n - 2)
+# print sum_primes_up_to(12)
+
+
+def count_stair_ways(n):
+    if n <= 1:
+        return 1
+    return count_stair_ways(n - 1) + count_stair_ways(n - 2)
+# print count_stair_ways(3)
+
+
+def pascal(row, colomn):
+    if colomn == 0:
+        return 1
+    elif row < colomn:
+        return 0
+    else:
+        return pascal(row - 1, colomn) + pascal(row - 1, colomn - 1)
+# print pascal(5, 3)
+
+
+def has_sum(sum, n1, n2):
+    if sum < min(n1, n2):
+        return False
+    elif sum == n1 or sum == n2:
+        return True
+    else:
+        return has_sum(sum - n1, n1, n2) or has_sum(sum - n2, n1, n2)
+# print has_sum(11, 4, 3)
+
+
+def has_sum1(total, n1, n2):
+    def has_remaining(total_so_far):
+        if total_so_far == total:
+            return True
+        elif total_so_far > total:
+            return False
+        else:
+            return has_remaining(total_so_far + n1) or \
+                    has_remaining(total_so_far + n2)
+    return has_remaining(0)
+
+
+def sum_range(lower, upper):
+    def sum_in(low):
+        if lower <= low:
+            return upper >= low + 10
+        elif lower <= 130:
+            return sum_in(130)
+        else:
+            return sum_big(180)
+
+    def sum_big(low):
+        if lower <= low:
+            return upper >= low + 20
+        else:
+            return False
+    return sum_in(50)
+
+print sum_range(45, 60)
+print sum_range(40, 55)
+print sum_range(170, 201)
+```
